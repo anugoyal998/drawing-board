@@ -1,4 +1,5 @@
-import { getElementAtPosition, updateElement } from "../utils/helper";
+import { cursorForPosition, getElementAtPosition, updateElement } from "../utils/helper";
+import { resizedCoordinates } from "../utils/helper1";
 
 
 export const handleMouseMove = (action,event,elements,setElements,tool,selectedElement) => {
@@ -6,7 +7,8 @@ export const handleMouseMove = (action,event,elements,setElements,tool,selectedE
 
 
   if(tool === "selection"){
-    event.target.style.cursor = getElementAtPosition(clientX,clientY,elements) ? "move" : "default"
+    const element = getElementAtPosition(clientX,clientY,elements)
+    event.target.style.cursor = element ? cursorForPosition(element.position) : "default"
   }
 
   if(action === "drawing"){
@@ -18,5 +20,9 @@ export const handleMouseMove = (action,event,elements,setElements,tool,selectedE
     const width = x2-x1
     const height = y2-y1
     updateElement(id,clientX,clientY,clientX+width,clientY+height,type,elements,setElements)
+  }else if(action === "resizing"){
+    const {id,type,position,...coordinates} = selectedElement
+    const {x1,y1,x2,y2} = resizedCoordinates(clientX,clientY,position,coordinates)
+    updateElement(id,x1,y1,x2,y2,type,elements,setElements)
   }
 };

@@ -10,12 +10,17 @@ export const handleMouseDown = (event, setElements,dispatch,tool,elements) => {
       const offsetX = clientX - element.x1
       const offsetY = clientY - element.y1
       dispatch(setSelectedElement({...element, offsetX, offsetY}));
-      dispatch(setAction("moving"))
+      if(element.position === "inside"){
+        dispatch(setAction("moving"))
+      }else{
+        dispatch(setAction("resizing"))
+      }
     }
   }else {
     const id = elements.length
     const element = createElement(id,clientX, clientY, clientX, clientY,tool);
     setElements((prev) => [...prev, element]);
+    dispatch(setSelectedElement(element))
     dispatch(setAction("drawing"))
   }
 };

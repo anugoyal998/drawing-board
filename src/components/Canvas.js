@@ -27,7 +27,7 @@ export const Canvas = ({canvasBg,setCanvasBg}) => {
         handleMouseMove(action,event,elements,setElements,tool,selectedElement)
     }
     const handleMouseUpClick = () => {
-        handleMouseUp(dispatch)
+        handleMouseUp(dispatch,action,elements,setElements,selectedElement)
     }
 
   return (
