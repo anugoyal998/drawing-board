@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { TopLeft } from './components/TopLeft'
 import { Canvas } from './components/Canvas'
+import { Toolbar } from './components/Toolbar'
+import { TopLeft } from './components/TopLeft'
 
 export default function App() {
   const [canvasBg,setCanvasBg] = useState('ffffff')
@@ -8,7 +9,8 @@ export default function App() {
   return (
     <div>
       <TopLeft canvasBg={canvasBg} setCanvasBg={setCanvasBg} />
-      <Canvas canvasBg={canvasBg} setCanvasBg={setCanvasBg} />
+      <Canvas/>
+      <Toolbar/>
     </div>
   )
 }
