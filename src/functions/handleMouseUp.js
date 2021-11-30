@@ -1,6 +1,6 @@
-import { setDrawing } from "../redux/actions/drawing.action";
+import {setAction} from '../redux/actions/action.action'
 
-export const handleMouseUp = (props) => {
-  const { event, dispatch } = props;
-  dispatch(setDrawing(false));
-};
+
+export const handleMouseUp = (dispatch)=> {
+  dispatch(setAction('none'))
+}

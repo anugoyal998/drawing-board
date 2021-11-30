@@ -4,6 +4,7 @@ import { BsFillSquareFill, BsFillCircleFill, BsImage } from "react-icons/bs";
 import { AiOutlineLine } from "react-icons/ai";
 import { FaPencilAlt } from "react-icons/fa";
 import { ImTextColor } from "react-icons/im";
+import {BiSelection} from "react-icons/bi"
 import { useDispatch, useSelector } from "react-redux";
 import { setTool } from "../redux/actions/tool.action";
 
@@ -15,6 +16,7 @@ const arr = [
   { icon: <FaPencilAlt className="text-2xl" />, title: "pencil" },
   { icon: <ImTextColor className="text-2xl" />, title: "text" },
   { icon: <BsImage className="text-2xl" />, title: "img" },
+  { icon: <BiSelection className="text-2xl" />, title: "selection" },
 ];
 
 export const Toolbar = () => {

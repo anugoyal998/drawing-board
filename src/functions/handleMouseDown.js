@@ -1,16 +1,9 @@
-import { setDrawing } from "../redux/actions/drawing.action";
-import { createElement } from "./createElement";
+import { createElement } from "../utils/helper";
+import {setAction} from '../redux/actions/action.action'
 
-export const handleMouseDown = (props) => {
-  const { event, dispatch, setElements, tool } = props;
-  dispatch(setDrawing(true));
+export const handleMouseDown = (event, setElements,dispatch,tool) => {
+  dispatch(setAction("drawing"))
   const { clientX, clientY } = event;
-  const element = createElement({
-    x1: clientX,
-    y1: clientY,
-    x2: clientX,
-    y2: clientY,
-    tool,
-  });
+  const element = createElement(clientX, clientY, clientX, clientY,tool);
   setElements((prev) => [...prev, element]);
 };

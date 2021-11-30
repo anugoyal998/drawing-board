@@ -1,8 +1,10 @@
 import { combineReducers } from "redux";
-import {drawingReducer } from "./drawing.reducer"
+import {actionReducer} from "./action.reducer"
 import {toolReducer} from './tool.reducer'
+import {selectedElementReducer} from './selectedElement.reducer'
 
 export const rootReducer = combineReducers({
-    drawingReducer,
+    actionReducer,
     toolReducer,
+    selectedElementReducer,
 })
