@@ -9,6 +9,7 @@ export const Canvas = ({canvasBg,setCanvasBg}) => {
     const [elements,setElements] = useState([])
     const action = useSelector(state => state.actionReducer.action)
     const tool = useSelector(state => state.toolReducer.tool)
+    const selectedElement = useSelector(state => state.selectedElementReducer.selectedElement)
     const dispatch = useDispatch()
     useLayoutEffect(() => {
         const canvas = document.getElementById('canvas');
@@ -20,10 +21,10 @@ export const Canvas = ({canvasBg,setCanvasBg}) => {
         })
     },[elements])
     const handleMouseDownClick = (event) => {
-        handleMouseDown(event, setElements,dispatch,tool)
+        handleMouseDown(event, setElements,dispatch,tool,elements)
     }
     const handleMouseMoveClick = (event) => {
-        handleMouseMove(action,event,elements,setElements,tool)
+        handleMouseMove(action,event,elements,setElements,tool,selectedElement)
     }
     const handleMouseUpClick = () => {
         handleMouseUp(dispatch)

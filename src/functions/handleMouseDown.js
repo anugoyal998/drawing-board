@@ -1,9 +1,21 @@
-import { createElement } from "../utils/helper";
+import { createElement, getElementAtPosition } from "../utils/helper";
 import {setAction} from '../redux/actions/action.action'
+import {setSelectedElement} from '../redux/actions/selectedElement.action'
 
-export const handleMouseDown = (event, setElements,dispatch,tool) => {
-  dispatch(setAction("drawing"))
+export const handleMouseDown = (event, setElements,dispatch,tool,elements) => {
   const { clientX, clientY } = event;
-  const element = createElement(clientX, clientY, clientX, clientY,tool);
-  setElements((prev) => [...prev, element]);
+  if(tool === "selection"){
+    const element = getElementAtPosition(clientX,clientY,elements);
+    if(element){
+      const offsetX = clientX - element.x1
+      const offsetY = clientY - element.y1
+      dispatch(setSelectedElement({...element, offsetX, offsetY}));
+      dispatch(setAction("moving"))
+    }
+  }else {
+    const id = elements.length
+    const element = createElement(id,clientX, clientY, clientX, clientY,tool);
+    setElements((prev) => [...prev, element]);
+    dispatch(setAction("drawing"))
+  }
 };
