@@ -2,15 +2,23 @@ import rough from "roughjs/bundled/rough.esm";
 const generator = rough.generator()
 
 export const createElement = (id,x1,y1,x2, y2,type)=>{
-    var roughElement = generator.line(x1,y1,x2,y2)
-    if(type === "rectangle"){
-        roughElement = generator.rectangle(x1,y1,x2-x1,y2-y1)
+    var roughElement
+    switch(type) {
+        case 'line':
+            roughElement = generator.line(x1,y1,x2,y2)
+            return {id,x1,y1,x2,y2,type,roughElement}
+        case "rectangle":
+            roughElement = generator.rectangle(x1,y1,x2-x1,y2-y1)
+            return {id,x1,y1,x2,y2,type,roughElement}
+        case "circle":
+            var diameter = 2 * Math.sqrt((x2-x1) * (x2-x1) + (y2-y1) * (y2-y1))
+            roughElement = generator.circle(x1,y1,diameter)
+            return {id,x1,y1,x2,y2,type,roughElement}
+        case "pencil":
+            return {id,type,points: [{x: x1,y: y1}]}
+        default:
+            throw new Error(`type not recognized: ${type}`)
     }
-    if(type === "circle"){
-        var diameter = 2 * Math.sqrt((x2-x1) * (x2-x1) + (y2-y1) * (y2-y1))
-        roughElement = generator.circle(x1,y1,diameter)
-    }
-    return {id,x1,y1,x2,y2,type,roughElement}
 }
 
 const distance = (a,b) => Math.sqrt(Math.pow(a.x-b.x,2) + Math.pow(a.y-b.y,2))

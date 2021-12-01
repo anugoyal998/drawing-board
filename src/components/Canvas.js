@@ -6,6 +6,7 @@ import { handleMouseUp } from "../functions/handleMouseUp";
 import {useSelector, useDispatch} from 'react-redux'
 import {useHistory} from '../hooks/useHistory'
 import {FaUndoAlt,FaRedoAlt} from 'react-icons/fa'
+import { drawElement } from "../utils/helper1";
 
 export const Canvas = ({canvasBg,setCanvasBg}) => {
     const [elements,setElements,undo,redo] = useHistory([])
@@ -18,9 +19,7 @@ export const Canvas = ({canvasBg,setCanvasBg}) => {
         const context = canvas.getContext('2d');
         context.clearRect(0, 0, canvas.width, canvas.height)
         const roughCanvas = rough.canvas(canvas)
-        elements.forEach(element => {
-            roughCanvas.draw(element?.roughElement)
-        })
+        elements.forEach(element => drawElement(roughCanvas,context,element))
     },[elements])
     useEffect(()=> {
       const undoRedoFunction = (event) => {
