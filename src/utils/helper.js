@@ -71,9 +71,19 @@ export const getElementAtPosition = (x,y,elements)=> {
 
 
 export const updateElement = (id,x1,y1,x2,y2,type,elements,setElements)=> {
-    const updatedElement = createElement(id,x1,y1,x2,y2,type);
     var elementsCopy = [...elements];
-    elementsCopy[id] = updatedElement;
+    switch(type) {
+        case "line":
+        case "rectangle":
+        case "circle":
+            elementsCopy[id] = createElement(id,x1,y1,x2,y2,type)
+            break
+        case "pencil":
+            elementsCopy[id].points = [...elementsCopy[id].points,{x: x2,y: y2}]
+            break
+        default:
+            throw new Error(`Type not recognized: ${type}`)
+    }
     setElements(elementsCopy,true);
 }
 

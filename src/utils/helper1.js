@@ -41,7 +41,9 @@ export const drawElement = (roughCanvas,context,element) => {
             roughCanvas.draw(element.roughElement)
             break
         case "pencil":
-            const myStroke = getStroke(element.points)
+            const myStroke = getStroke(element.points,{
+                size: 4
+            })
             const pathData = getSvgPathFromStroke(myStroke)
             const myPath = new Path2D(pathData)
             context.fill(myPath)
