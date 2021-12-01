@@ -66,7 +66,7 @@ export const updateElement = (id,x1,y1,x2,y2,type,elements,setElements)=> {
     const updatedElement = createElement(id,x1,y1,x2,y2,type);
     var elementsCopy = [...elements];
     elementsCopy[id] = updatedElement;
-    setElements(elementsCopy);
+    setElements(elementsCopy,true);
 }
 
 export const adjustElementCoordinates = (element)=> {
