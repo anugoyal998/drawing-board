@@ -32,7 +32,7 @@ export const Canvas = ({ elements, setElements, undo, redo }) => {
       if (action === "writing" && selectedElement.id === element.id) return;
       drawElement(roughCanvas, context, element);
     });
-  }, [elements, action, selectedElement]);
+  }, [elements, action, selectedElement,tool]);
 
   const handleSaveCanvas = () => {
     const canvas = canvasRef.current;
@@ -63,7 +63,7 @@ export const Canvas = ({ elements, setElements, undo, redo }) => {
     return () => {
       document.removeEventListener("keydown", undoRedoFunction);
     };
-  }, [undo, redo]);
+  }, [undo, redo,tool]);
   
   useEffect(() => {
     if (tool === "img" || tool === "cursor") return;
@@ -72,7 +72,7 @@ export const Canvas = ({ elements, setElements, undo, redo }) => {
       textArea.focus();
       textArea.value = selectedElement.text;
     }
-  }, [action, selectedElement]);
+  }, [action, selectedElement,tool]);
 
   const handleMouseDownClick = (event) => {
     if (tool === "img" || tool === "cursor") return;

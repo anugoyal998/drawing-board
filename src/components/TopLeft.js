@@ -4,15 +4,10 @@ import { FaRegSave } from "react-icons/fa";
 import { MdDarkMode } from "react-icons/md";
 import rough from "roughjs/bundled/rough.esm";
 import { jsPDF } from "jspdf";
-import { useSelector } from "react-redux";
 import { drawElement } from "../utils/helper1";
 
 
 export const TopLeft = ({ setElements, elements, canvasRef}) => {
-  const action = useSelector((state) => state.actionReducer.action);
-  const selectedElement = useSelector(
-    (state) => state.selectedElementReducer.selectedElement
-  );
   const handleSaveCanvas = ()=> {
     const canvas = canvasRef?.current;
     const context = canvas.getContext("2d");

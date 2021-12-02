@@ -1,12 +1,13 @@
 import React from "react";
 import { GrCursor } from "react-icons/gr";
-import { BsFillSquareFill, BsFillCircleFill, BsImage } from "react-icons/bs";
+import { BsFillSquareFill, BsFillCircleFill } from "react-icons/bs";
 import { AiOutlineLine } from "react-icons/ai";
 import { FaPencilAlt } from "react-icons/fa";
 import { ImTextColor } from "react-icons/im";
 import { BiSelection } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { setTool } from "../redux/actions/tool.action";
+import { useWindowSize } from "../hooks/useWindowSize";
 
 const arr = [
   { icon: <GrCursor className="text-2xl" />, title: "cursor" },
@@ -15,17 +16,17 @@ const arr = [
   { icon: <AiOutlineLine className="text-2xl" />, title: "line" },
   { icon: <FaPencilAlt className="text-2xl" />, title: "pencil" },
   { icon: <ImTextColor className="text-2xl" />, title: "text" },
-  // { icon: <BsImage className="text-2xl" />, title: "img" },
   { icon: <BiSelection className="text-2xl" />, title: "selection" },
 ];
 
 export const Toolbar = () => {
   const dispatch = useDispatch();
   const tool = useSelector((state) => state.toolReducer.tool);
+  const width = useWindowSize()
   return (
     <div
-      className="absolute top-0 bg-white m-1 rounded-md shadow-md p-2 z-10 flex space-x-3"
-      style={{ left: "40vw" }}
+      className="absolute top-0 bg-white m-1 rounded-md shadow-md p-2 z-10 flex flex-col md:flex-row md:space-x-3 space-y-3 md:space-y-0"
+      style={{ left: width >= 768 ? "40vw" : "90vw" }}
     >
       {arr.map((e, key) => {
         if (e.title !== tool) {

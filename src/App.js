@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Canvas } from "./components/Canvas";
 import { Toolbar } from "./components/Toolbar";
 import { useHistory } from "./hooks/useHistory";
