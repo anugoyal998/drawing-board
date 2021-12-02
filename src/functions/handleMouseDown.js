@@ -7,15 +7,9 @@ export const handleMouseDown = (event, setElements,dispatch,tool,elements) => {
   if(tool === "selection"){
     const element = getElementAtPosition(clientX,clientY,elements);
     if(element){
-      if(element.type === "pencil"){
-        const xOffsets = element.points.map(point=> clientX - point.x)
-        const yOffsets = element.points.map(point=> clientY - point.y)
-        dispatch(setSelectedElement({...element, xOffsets, yOffsets}));
-      }else{
-        const offsetX = clientX - element.x1
-        const offsetY = clientY - element.y1
-        dispatch(setSelectedElement({...element, offsetX, offsetY}));
-      }
+      const offsetX = clientX - element.x1
+      const offsetY = clientY - element.y1
+      dispatch(setSelectedElement({...element, offsetX, offsetY}));
       setElements(prevState=> prevState)
       if(element.position === "inside"){
         dispatch(setAction("moving"))

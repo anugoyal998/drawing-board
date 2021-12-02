@@ -27,17 +27,13 @@ const nearPoint = (x,y,x1,y1,name) => {
     return Math.abs(x-x1)<5 && Math.abs(y-y1)<5 ? name : null
 }
 
-const onLine = (x1,y1,x2,y2,x,y,maxDistance=1) => {
-    const a = {x: x1,y: y1}
-    const b = {x: x2,y: y2}
-    const c = {x,y}
-    const offset = distance(a,b) - (distance(a,c) + distance(b,c))
-    return Math.abs(offset)<maxDistance ? "inside" : null
-}
-
 const positionWithInElement = (x,y,element) => {
     const {type,x1,x2,y1,y2} = element
     if(type === 'rectangle'){
+        // const minX = Math.min(x1,x2)
+        // const maxX = Math.max(x1,x2)
+        // const minY = Math.min(y1,y2)
+        // const maxY = Math.max(y1,y2)
         const topLeft = nearPoint(x,y,x1,y1,"tl")
         const topRight = nearPoint(x,y,x2,y1,"tr")
         const bottomLeft = nearPoint(x,y,x1,y2,"bl")
@@ -45,11 +41,16 @@ const positionWithInElement = (x,y,element) => {
         const inside = x>=x1 && x<=x2 && y>=y1 && y<=y2 ? "inside" : null
         return topLeft || topRight || bottomLeft || bottomRight || inside
     }else if(type === 'line') {
+        const a = {x: x1,y: y1}
+        const b = {x: x2,y: y2}
+        const c = {x,y}
+        const offset = distance(a,b) - (distance(a,c) + distance(b,c))
         const start = nearPoint(x,y,x1,y1,"start")
         const end = nearPoint(x,y,x2,y2,"end")
-        const inside =  onLine(x1,y1,x2,y2,x,y)
+        const inside =  Math.abs(offset)<1 ? "inside" : null
         return start || end || inside
-    }else if(type === 'circle'){
+    }else{
+        //circle
         // x1,y1 = center
         // radius = distance between x1,y1 and x2,y2
         const a = {x,y}// point
@@ -59,15 +60,6 @@ const positionWithInElement = (x,y,element) => {
         const inside = distance(a,b) <= radius ? "inside" : null
         const resizeCircle = distance(a,b) - radius <=5 && distance(a,b) >=radius ? "resizeCircle" : null
         return resizeCircle || inside
-    }else if(type === 'pencil'){
-        const betweenAnyPoint = element.points.some((point,index) => {
-            const nextPoint = element.points[index+1]
-            if(!nextPoint) return false
-            return onLine(point.x, point.y, nextPoint.x, nextPoint.y, x, y, 5) !== null
-        })
-        return betweenAnyPoint ? "inside" : null
-    }else{
-        return null
     }
 }
 
