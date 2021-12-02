@@ -13,6 +13,7 @@ export const handleMouseUp = (dispatch,action,elements,setElements,selectedEleme
       updateElement(id,x1,y1,x2,y2,type,elements,setElements)
     }
   }
+  if(action === "writing") return
   dispatch(setAction('none'))
   dispatch(setSelectedElement(null))
 }

@@ -48,6 +48,10 @@ export const drawElement = (roughCanvas,context,element) => {
             const myPath = new Path2D(pathData)
             context.fill(myPath)
             break
+        case "text":
+            context.font = '24px sans-serif'
+            context.fillText(element.text,element.x1,element.y1)
+            break
         default:
             throw new Error(`type not recognized: ${element.type}`)
     }

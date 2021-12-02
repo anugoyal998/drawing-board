@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import rough from "roughjs/bundled/rough.esm";
 import { handleMouseDown } from "../functions/handleMouseDown";
 import { handleMouseMove } from "../functions/handleMouseMove";
@@ -7,8 +7,10 @@ import {useSelector, useDispatch} from 'react-redux'
 import {useHistory} from '../hooks/useHistory'
 import {FaUndoAlt,FaRedoAlt} from 'react-icons/fa'
 import { drawElement } from "../utils/helper1";
+import { handleBlur } from "../functions/handleBlur";
 
 export const Canvas = ({canvasBg,setCanvasBg}) => {
+    const textAreaRef = useRef()
     const [elements,setElements,undo,redo] = useHistory([])
     const action = useSelector(state => state.actionReducer.action)
     const tool = useSelector(state => state.toolReducer.tool)
@@ -35,14 +37,21 @@ export const Canvas = ({canvasBg,setCanvasBg}) => {
         document.removeEventListener("keydown",undoRedoFunction)
       }
     },[undo,redo])
+    useEffect(()=> {
+      const textArea = textAreaRef.current
+      if(action === "writing")textArea.focus()
+    },[action,selectedElement])
     const handleMouseDownClick = (event) => {
-        handleMouseDown(event, setElements,dispatch,tool,elements)
+        handleMouseDown(event, setElements,dispatch,tool,elements,action)
     }
     const handleMouseMoveClick = (event) => {
         handleMouseMove(action,event,elements,setElements,tool,selectedElement)
     }
     const handleMouseUpClick = () => {
         handleMouseUp(dispatch,action,elements,setElements,selectedElement)
+    }
+    const handleBlurClick = (event) => {
+      handleBlur(event,elements,setElements,selectedElement,dispatch)
     }
 
   return (
@@ -51,6 +60,8 @@ export const Canvas = ({canvasBg,setCanvasBg}) => {
       <div className="transform hover:bg-white hover:scale-110 cursor-pointer p-1 bg-gray-100 rounded-md"><FaUndoAlt className="text-2xl" onClick={undo} /></div>
       <div className="transform hover:bg-white hover:scale-110 cursor-pointer p-1 bg-gray-100 rounded-md"><FaRedoAlt className="text-2xl" onClick={redo} /></div>
     </div>
+
+    { action === "writing" && <textarea onBlur={handleBlurClick}  ref={textAreaRef} className="fixed border-2 border-black" style={{top: selectedElement.y1, left: selectedElement.x1}}  />}
 
     <canvas
       id="canvas"

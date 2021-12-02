@@ -2,7 +2,8 @@ import { createElement, getElementAtPosition } from "../utils/helper";
 import {setAction} from '../redux/actions/action.action'
 import {setSelectedElement} from '../redux/actions/selectedElement.action'
 
-export const handleMouseDown = (event, setElements,dispatch,tool,elements) => {
+export const handleMouseDown = (event, setElements,dispatch,tool,elements,action) => {
+  if(action === "writing")return
   const { clientX, clientY } = event;
   if(tool === "selection"){
     const element = getElementAtPosition(clientX,clientY,elements);
@@ -22,6 +23,6 @@ export const handleMouseDown = (event, setElements,dispatch,tool,elements) => {
     const element = createElement(id,clientX, clientY, clientX, clientY,tool);
     setElements((prev) => [...prev, element]);
     dispatch(setSelectedElement(element))
-    dispatch(setAction("drawing"))
+    dispatch(setAction(tool === "text" ? "writing" : "drawing"))
   }
 };

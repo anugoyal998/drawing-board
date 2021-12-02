@@ -16,6 +16,8 @@ export const createElement = (id,x1,y1,x2, y2,type)=>{
             return {id,x1,y1,x2,y2,type,roughElement}
         case "pencil":
             return {id,type,points: [{x: x1,y: y1}]}
+        case "text":
+            return {id,type,x1,y1,text: ""}
         default:
             throw new Error(`type not recognized: ${type}`)
     }
@@ -30,10 +32,6 @@ const nearPoint = (x,y,x1,y1,name) => {
 const positionWithInElement = (x,y,element) => {
     const {type,x1,x2,y1,y2} = element
     if(type === 'rectangle'){
-        // const minX = Math.min(x1,x2)
-        // const maxX = Math.max(x1,x2)
-        // const minY = Math.min(y1,y2)
-        // const maxY = Math.max(y1,y2)
         const topLeft = nearPoint(x,y,x1,y1,"tl")
         const topRight = nearPoint(x,y,x2,y1,"tr")
         const bottomLeft = nearPoint(x,y,x1,y2,"bl")
@@ -70,7 +68,7 @@ export const getElementAtPosition = (x,y,elements)=> {
 }
 
 
-export const updateElement = (id,x1,y1,x2,y2,type,elements,setElements)=> {
+export const updateElement = (id,x1,y1,x2,y2,type,elements,setElements,options)=> {
     var elementsCopy = [...elements];
     switch(type) {
         case "line":
@@ -80,6 +78,9 @@ export const updateElement = (id,x1,y1,x2,y2,type,elements,setElements)=> {
             break
         case "pencil":
             elementsCopy[id].points = [...elementsCopy[id].points,{x: x2,y: y2}]
+            break
+        case "text":
+            elementsCopy[id].text = options.text
             break
         default:
             throw new Error(`Type not recognized: ${type}`)
