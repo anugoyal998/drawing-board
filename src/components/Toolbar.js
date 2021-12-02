@@ -15,7 +15,7 @@ const arr = [
   { icon: <AiOutlineLine className="text-2xl" />, title: "line" },
   { icon: <FaPencilAlt className="text-2xl" />, title: "pencil" },
   { icon: <ImTextColor className="text-2xl" />, title: "text" },
-  { icon: <BsImage className="text-2xl" />, title: "img" },
+  // { icon: <BsImage className="text-2xl" />, title: "img" },
   { icon: <BiSelection className="text-2xl" />, title: "selection" },
 ];
 

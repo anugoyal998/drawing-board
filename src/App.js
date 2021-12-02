@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import { Canvas } from "./components/Canvas";
 import { Toolbar } from "./components/Toolbar";
-import { TopLeft } from "./components/TopLeft";
+import { useHistory } from "./hooks/useHistory";
 
 export default function App() {
-  const [canvasBg, setCanvasBg] = useState("ffffff");
-
+  const [elements, setElements, undo, redo] = useHistory([]);
   return (
     <div>
-      <TopLeft canvasBg={canvasBg} setCanvasBg={setCanvasBg} />
-      <Canvas />
+      <Canvas elements={elements} setElements={setElements} undo={undo} redo={redo} /> 
       <Toolbar />
     </div>
   );

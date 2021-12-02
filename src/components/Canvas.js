@@ -4,22 +4,27 @@ import { handleMouseDown } from "../functions/handleMouseDown";
 import { handleMouseMove } from "../functions/handleMouseMove";
 import { handleMouseUp } from "../functions/handleMouseUp";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "../hooks/useHistory";
 import { FaUndoAlt, FaRedoAlt } from "react-icons/fa";
 import { drawElement } from "../utils/helper1";
 import { handleBlur } from "../functions/handleBlur";
+import { AiOutlineDelete } from "react-icons/ai";
+import { FaRegSave } from "react-icons/fa";
+import { MdDarkMode } from "react-icons/md";
 
-export const Canvas = ({ canvasBg, setCanvasBg }) => {
+export const Canvas = ({ elements, setElements, undo, redo }) => {
   const textAreaRef = useRef();
-  const [elements, setElements, undo, redo] = useHistory([]);
+  const canvasRef = useRef();
   const action = useSelector((state) => state.actionReducer.action);
   const tool = useSelector((state) => state.toolReducer.tool);
   const selectedElement = useSelector(
     (state) => state.selectedElementReducer.selectedElement
   );
   const dispatch = useDispatch();
+
+
   useLayoutEffect(() => {
-    const canvas = document.getElementById("canvas");
+    if (tool === "img" || tool === "cursor") return;
+    const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
     context.clearRect(0, 0, canvas.width, canvas.height);
     const roughCanvas = rough.canvas(canvas);
@@ -28,7 +33,24 @@ export const Canvas = ({ canvasBg, setCanvasBg }) => {
       drawElement(roughCanvas, context, element);
     });
   }, [elements, action, selectedElement]);
+
+  const handleSaveCanvas = () => {
+    const canvas = canvasRef.current;
+    const context = canvas.getContext("2d");
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    const roughCanvas = rough.canvas(canvas);
+    elements.forEach((element) => {
+      drawElement(roughCanvas, context, element);
+    });
+    const imgData = canvas.toDataURL("image/png");
+    var a = document.createElement("a"); //Create <a>
+    a.href = imgData;
+    a.download = "Image.png"; //File name Here
+    a.click(); //Downloaded file
+  };
+
   useEffect(() => {
+    if (tool === "img" || tool === "cursor") return;
     const undoRedoFunction = (event) => {
       if (event.metaKey || (event.ctrlKey && event.key === "z")) {
         undo();
@@ -42,17 +64,23 @@ export const Canvas = ({ canvasBg, setCanvasBg }) => {
       document.removeEventListener("keydown", undoRedoFunction);
     };
   }, [undo, redo]);
+  
   useEffect(() => {
+    if (tool === "img" || tool === "cursor") return;
     const textArea = textAreaRef.current;
     if (action === "writing") {
       textArea.focus();
       textArea.value = selectedElement.text;
     }
   }, [action, selectedElement]);
+
   const handleMouseDownClick = (event) => {
+    if (tool === "img" || tool === "cursor") return;
     handleMouseDown(event, setElements, dispatch, tool, elements, action);
   };
+
   const handleMouseMoveClick = (event) => {
+    if (tool === "img" || tool === "cursor") return;
     handleMouseMove(
       action,
       event,
@@ -62,7 +90,9 @@ export const Canvas = ({ canvasBg, setCanvasBg }) => {
       selectedElement
     );
   };
+
   const handleMouseUpClick = (event) => {
+    if (tool === "img" || tool === "cursor") return;
     handleMouseUp(
       event,
       dispatch,
@@ -72,12 +102,15 @@ export const Canvas = ({ canvasBg, setCanvasBg }) => {
       selectedElement
     );
   };
+
   const handleBlurClick = (event) => {
+    if (tool === "img" || tool === "cursor") return;
     handleBlur(event, elements, setElements, selectedElement, dispatch);
   };
 
   return (
     <>
+    {/* undo redo */}
       <div className="absolute bottom-0 left-0 flex items-center m-2 space-x-3 shadow-md bg-white p-2 rounded-md justify-center">
         <div className="transform hover:bg-white hover:scale-110 cursor-pointer p-1 bg-gray-100 rounded-md">
           <FaUndoAlt className="text-2xl" onClick={undo} />
@@ -86,6 +119,7 @@ export const Canvas = ({ canvasBg, setCanvasBg }) => {
           <FaRedoAlt className="text-2xl" onClick={redo} />
         </div>
       </div>
+    {/* undo redo */}
 
       {action === "writing" && (
         <textarea
@@ -103,9 +137,32 @@ export const Canvas = ({ canvasBg, setCanvasBg }) => {
         />
       )}
 
+      {/* top left */}
+      <div className="absolute top-0 left-0 m-1 rounded-md shadow-md p-2 z-10">
+        <div className="flex space-x-3">
+          <div
+            className="transform hover:bg-white hover:scale-110 cursor-pointer p-1 bg-gray-100 rounded-md"
+            onClick={() => setElements([])}
+          >
+            <AiOutlineDelete className="text-2xl" />
+          </div>
+          <div
+            className="transform hover:bg-white hover:scale-110 cursor-pointer p-1 bg-gray-100 rounded-md"
+            onClick={handleSaveCanvas}
+          >
+            <FaRegSave className="text-2xl" />
+          </div>
+          <div className="transform hover:bg-white hover:scale-110 cursor-pointer p-1 bg-gray-100 rounded-md">
+            <MdDarkMode className="text-2xl" />
+          </div>
+        </div>
+      </div>
+      {/* top left */}
+
       <canvas
+        ref={canvasRef}
         id="canvas"
-        className="w-screen h-screen z-0"
+        className="w-screen h-screen z-0 bg-white"
         width={window.innerWidth}
         height={window.innerHeight}
         onMouseDown={handleMouseDownClick}
