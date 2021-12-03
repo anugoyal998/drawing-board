@@ -6,8 +6,8 @@ import { FaPencilAlt } from "react-icons/fa";
 import { ImTextColor } from "react-icons/im";
 import { BiSelection } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
-import { setTool } from "../redux/actions/tool.action";
-import { useWindowSize } from "../hooks/useWindowSize";
+import { setTool } from "../../redux/actions/tool.action";
+import { useWindowSize } from "../../hooks/useWindowSize";
 
 const arr = [
   { icon: <GrCursor className="text-2xl" />, title: "cursor" },

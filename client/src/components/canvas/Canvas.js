@@ -1,12 +1,12 @@
 import React, { useEffect, useLayoutEffect, useRef } from "react";
 import rough from "roughjs/bundled/rough.esm";
-import { handleMouseDown } from "../functions/handleMouseDown";
-import { handleMouseMove } from "../functions/handleMouseMove";
-import { handleMouseUp } from "../functions/handleMouseUp";
+import { handleMouseDown } from "../../functions/handleMouseDown";
+import { handleMouseMove } from "../../functions/handleMouseMove";
+import { handleMouseUp } from "../../functions/handleMouseUp";
 import { useSelector, useDispatch } from "react-redux";
 import { FaUndoAlt, FaRedoAlt } from "react-icons/fa";
-import { drawElement } from "../utils/helper1";
-import { handleBlur } from "../functions/handleBlur";
+import { drawElement } from "../../utils/helper1";
+import { handleBlur } from "../../functions/handleBlur";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FaRegSave } from "react-icons/fa";
 import { MdDarkMode } from "react-icons/md";

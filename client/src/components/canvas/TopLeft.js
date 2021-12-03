@@ -4,7 +4,7 @@ import { FaRegSave } from "react-icons/fa";
 import { MdDarkMode } from "react-icons/md";
 import rough from "roughjs/bundled/rough.esm";
 import { jsPDF } from "jspdf";
-import { drawElement } from "../utils/helper1";
+import { drawElement } from "../../utils/helper1";
 
 
 export const TopLeft = ({ setElements, elements, canvasRef}) => {
