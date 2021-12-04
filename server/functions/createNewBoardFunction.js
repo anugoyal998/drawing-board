@@ -21,6 +21,18 @@ const createNewBoardFunction = async (req,res) => {
     }
 }
 
+const getBoardFunction = async (req, res) => {
+    try {
+        const findData = await boardSch.find({email: req.body.email})
+        res.status(200).json(findData)
+    } catch (error) {
+        console.log("error getting board function",error)
+        res.status(400).json("error")
+        return
+    }
+}
+
 module.exports = {
-    createNewBoardFunction
+    createNewBoardFunction,
+    getBoardFunction,
 }

@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ImSearch } from "react-icons/im";
 import { FaUser } from "react-icons/fa";
 import GoogleLogin from "react-google-login";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import {Link} from "react-router-dom"
 import { loginSuccess } from "./functions/loginSuccess";
+import axios from "axios";
+import { setAllBoards } from "../../redux/actions/board.action";
 
 export const Navbar = () => {
+  const url = process.env.REACT_APP_SERVER_BASE_URL
   const loginSuccessClick = (response) => {
     loginSuccess(response.profileObj, dispatch);
   };
@@ -16,7 +19,21 @@ export const Navbar = () => {
   };
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.authReducer.auth);
+  useEffect(()=> {
+    async function fetchData(){
+      try {
+        const rsp = await axios.post(`${url}/get-board`,{email: auth?.email})
+        const data = rsp.data.reverse()
+        dispatch(setAllBoards(data))
+      } catch (error) {
+        console.log("error fetching data",error)
+        toast.error("An error occured")
+      }
+    }
+    fetchData()
+  },[auth])
   return (
+    <div className="fixed w-full">
     <div className="flex items-center justify-between p-2 shadow-md bg-white z-10">
       <Toaster />
       <Link to="/">
@@ -60,6 +77,7 @@ export const Navbar = () => {
           cookiePolicy={"single_host_origin"}
         />
       )}
+    </div>
     </div>
   );
 };

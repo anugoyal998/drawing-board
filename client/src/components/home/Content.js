@@ -3,12 +3,17 @@ import { NoBoard } from './NoBoard'
 import { PlusBtn } from './PlusBtn'
 import toast , {Toaster} from "react-hot-toast"
 import axios from "axios"
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
+import { Card } from './BoardCard'
 
 export const Content = ({setElements}) => {
-  const url = process.env.REACT_APP_SERVER_BASE_URL
+    const url = process.env.REACT_APP_SERVER_BASE_URL
     const auth = useSelector(state=> state.authReducer.auth)
+    const allBoards = useSelector(state=> state.boardReducer.allBoards)
+    const dispatch = useDispatch();
+    // save board
     useEffect(async () =>{
+      async function fetch1(){
         if(!auth || !auth?.name)return
         const boardEle = JSON.parse(localStorage.getItem('board'))
         if(!boardEle)return
@@ -26,14 +31,33 @@ export const Content = ({setElements}) => {
           } catch (error) {
             console.log("error in save board", error)
             toast.error('An error occured while saving board')
-          }
+          } 
+      }
+        fetch1()
     },[])
-    return (
-        <div className="bg-gray-100 absolute top-0 left-0 h-screen w-screen pt-16 px-10" style={{zIndex: -10}} >
+    if(allBoards.length <= 0){
+      return (
+        <>
+        <div className={`bg-gray-100 absolute top-0 left-0 w-screen h-screen pt-16 px-10`} style={{zIndex: -10}} >
             <Toaster/>
             <p className="font-semibold text-lg text-gray-600">Recent Boards</p>
-            <NoBoard/>
             <PlusBtn/>
+            <NoBoard/>
         </div>
+        </>
+      )
+    }else return(
+      <>
+      <Toaster/>
+      <PlusBtn/>
+      <p className="font-semibold text-lg text-gray-600 bg-gray-100 pt-16 px-10">Recent Boards</p>
+      <div className="bg-gray-100 grid overflow-y-scroll overflow-x-hidden " style={{gridTemplateColumns: "repeat(auto-fill,minmax(250px,1fr))", height: '85vh' }} >
+        {
+          allBoards && allBoards?.length && allBoards?.map((e,key)=> {
+            return <Card e={e} key={key} />
+          })
+        }
+      </div>
+      </>
     )
 }

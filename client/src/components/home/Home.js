@@ -4,7 +4,7 @@ import { Navbar } from './Navbar'
 
 export const Home = ({setElements}) => {
     return (
-        <div>
+        <div className="">
             <Navbar/>
             <Content setElements={setElements} />
         </div>

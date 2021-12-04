@@ -78,7 +78,7 @@ export const Canvas = ({ elements, setElements, undo, redo }) => {
     });
   }, [elements, action, selectedElement,tool,restored]);
 
-  const handleSaveCanvas = () => {
+  const handleSaveCanvas = async (isSave=true) => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -90,7 +90,7 @@ export const Canvas = ({ elements, setElements, undo, redo }) => {
     var a = document.createElement("a"); //Create <a>
     a.href = imgData;
     a.download = "Image.png"; //File name Here
-    a.click(); //Downloaded file
+    isSave && a.click(); //Downloaded file
   };
 
   useEffect(() => {
