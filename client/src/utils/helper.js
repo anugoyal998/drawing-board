@@ -114,6 +114,7 @@ export const updateElement = (
       throw new Error(`Type not recognized: ${type}`);
   }
   setElements(elementsCopy, true);
+  localStorage.setItem('board',JSON.stringify(elementsCopy,true))
 };
 
 export const adjustElementCoordinates = (element) => {

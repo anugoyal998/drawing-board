@@ -2,11 +2,11 @@ import React from 'react'
 import { Content } from './Content'
 import { Navbar } from './Navbar'
 
-export const Home = () => {
+export const Home = ({setElements}) => {
     return (
         <div>
             <Navbar/>
-            <Content/>
+            <Content setElements={setElements} />
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import rough from "roughjs/bundled/rough.esm";
 import { handleMouseDown } from "../../functions/handleMouseDown";
 import { handleMouseMove } from "../../functions/handleMouseMove";
@@ -10,16 +10,60 @@ import { handleBlur } from "../../functions/handleBlur";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FaRegSave } from "react-icons/fa";
 import { MdDarkMode } from "react-icons/md";
+import axios from 'axios';
+import toast , {Toaster} from "react-hot-toast"
+import {setTool} from '../../redux/actions/tool.action'
 
 export const Canvas = ({ elements, setElements, undo, redo }) => {
+  const url = process.env.REACT_APP_SERVER_BASE_URL
+  const [restored,setRestored] = useState(false)
   const textAreaRef = useRef();
   const canvasRef = useRef();
   const action = useSelector((state) => state.actionReducer.action);
   const tool = useSelector((state) => state.toolReducer.tool);
+  const auth = useSelector((state) => state.authReducer.auth);
   const selectedElement = useSelector(
     (state) => state.selectedElementReducer.selectedElement
   );
   const dispatch = useDispatch();
+
+
+  useEffect(() => {
+    const board = JSON.parse(localStorage.getItem('board'))
+    if(board){
+      setElements(prev=> board)
+      setRestored(true)
+      dispatch(setTool("line"))
+      toast(
+        "Your previous work was restored from your local storage",
+        { duration: 3000 }
+      )
+    }
+    return async ()=> {
+      if(!auth || !auth?.name)return
+      const boardEle = JSON.parse(localStorage.getItem('board'))
+      if(!boardEle)return
+      localStorage.clear()
+      setElements([])
+      try {
+        const data = {
+          name: auth.name,
+          email: auth.email,
+          gid: auth.gid,
+          img: auth.img,
+          board_data: boardEle
+        }
+        await axios.post(`${url}/new-board`,data)
+      } catch (error) {
+        console.log("error in save board", error)
+        toast.error('An error occured while saving board')
+      }
+      window.location.reload()
+      setInterval(() => {
+        window.location.reload()
+      }, 1000);
+    }
+  },[])
 
 
   useLayoutEffect(() => {
@@ -32,7 +76,7 @@ export const Canvas = ({ elements, setElements, undo, redo }) => {
       if (action === "writing" && selectedElement.id === element.id) return;
       drawElement(roughCanvas, context, element);
     });
-  }, [elements, action, selectedElement,tool]);
+  }, [elements, action, selectedElement,tool,restored]);
 
   const handleSaveCanvas = () => {
     const canvas = canvasRef.current;
@@ -110,6 +154,7 @@ export const Canvas = ({ elements, setElements, undo, redo }) => {
 
   return (
     <>
+    <Toaster/>
     {/* undo redo */}
       <div className="absolute bottom-0 left-0 flex items-center m-2 space-x-3 shadow-md bg-white p-2 rounded-md justify-center">
         <div className="transform hover:bg-white hover:scale-110 cursor-pointer p-1 bg-gray-100 rounded-md">

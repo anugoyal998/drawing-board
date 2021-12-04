@@ -20,7 +20,7 @@ export default function App() {
   return (
     <>
       <Route path="/" exact>
-        <Home/>
+        <Home setElements={setElements} />
       </Route>
       <Route path="/new-board" exact>
         <Canvas

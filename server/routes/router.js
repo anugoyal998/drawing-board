@@ -11,6 +11,10 @@ router.get('/hello',(req, res) => {
 const {authFunction} = require('../functions/authFunction')
 router.post('/auth/add/user',authFunction)
 
+//createNewBoard
+const {createNewBoardFunction} = require('../functions/createNewBoardFunction')
+router.post('/new-board',createNewBoardFunction)
+
 
 module.exports = router
 

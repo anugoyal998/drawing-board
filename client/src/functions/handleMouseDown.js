@@ -19,6 +19,7 @@ export const handleMouseDown = (
       const offsetY = clientY - element.y1;
       dispatch(setSelectedElement({ ...element, offsetX, offsetY }));
       setElements((prevState) => prevState);
+      localStorage.setItem('board',JSON.stringify(elements))
       if (element.position === "inside") {
         dispatch(setAction("moving"));
       } else {
@@ -29,6 +30,7 @@ export const handleMouseDown = (
     const id = elements.length;
     const element = createElement(id, clientX, clientY, clientX, clientY, tool);
     setElements((prev) => [...prev, element]);
+    localStorage.setItem("board",JSON.stringify(elements))
     dispatch(setSelectedElement(element));
     dispatch(setAction(tool === "text" ? "writing" : "drawing"));
   }
