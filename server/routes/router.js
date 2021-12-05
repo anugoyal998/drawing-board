@@ -13,9 +13,10 @@ router.post('/auth/add/user',authFunction)
 
 //createNewBoard
 //get board from db
-const {createNewBoardFunction, getBoardFunction} = require('../functions/createNewBoardFunction');
+const {createNewBoardFunction, getBoardFunction, updateBoardFunction} = require('../functions/createNewBoardFunction');
 router.post('/new-board',createNewBoardFunction)
 router.post('/get-board',getBoardFunction)
+router.post('/update-board',updateBoardFunction)
 
 //update board
 const { renameBoardFunction, deleteBoardFunction } = require('../functions/updateBoard');

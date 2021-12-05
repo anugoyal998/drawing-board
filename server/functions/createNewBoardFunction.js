@@ -32,7 +32,28 @@ const getBoardFunction = async (req, res) => {
     }
 }
 
+const updateBoardFunction = async (req, res) => {
+    try {
+        const findData = await boardSch.find({uid: req.body.uid})
+        if(findData.length <= 0){
+            res.status(400).json("an error occured")
+            return
+        }
+        await boardSch.updateOne({_id: findData[0]._id},{
+            $set: {
+                board_data: req.body.board_data
+            }
+        })
+        res.status(200).json("success")
+    } catch (error) {
+        console.log("error in updateBoardFunction",error)
+        res.status(400).json("error")
+        return
+    }
+}
+
 module.exports = {
     createNewBoardFunction,
     getBoardFunction,
+    updateBoardFunction,
 }

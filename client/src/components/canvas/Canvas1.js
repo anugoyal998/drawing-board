@@ -14,7 +14,7 @@ import axios from 'axios';
 import toast , {Toaster} from "react-hot-toast"
 import {setTool} from '../../redux/actions/tool.action'
 
-export const Canvas = ({ elements, setElements, undo, redo }) => {
+export const Canvas1 = ({ elements, setElements, undo, redo }) => {
   const url = process.env.REACT_APP_SERVER_BASE_URL
   const [restored,setRestored] = useState(false)
   const textAreaRef = useRef();
@@ -42,18 +42,12 @@ export const Canvas = ({ elements, setElements, undo, redo }) => {
     return async ()=> {
       if(!auth || !auth?.name)return
       const boardEle = JSON.parse(localStorage.getItem('board'))
-      if(!boardEle || boardEle.length <=0 )return
+      const uid = localStorage.getItem('uid')
+      if(!boardEle || boardEle.length<=0 || !uid)return
       localStorage.clear()
       setElements([])
       try {
-        const data = {
-          name: auth.name,
-          email: auth.email,
-          gid: auth.gid,
-          img: auth.img,
-          board_data: boardEle
-        }
-        await axios.post(`${url}/new-board`,data)
+        await axios.post(`${url}/update-board`,{uid,board_data: boardEle})
       } catch (error) {
         console.log("error in save board", error)
         toast.error('An error occured while saving board')
