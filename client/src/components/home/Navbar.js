@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { loginSuccess } from "./functions/loginSuccess";
 import axios from "axios";
 import { setAllBoards } from "../../redux/actions/board.action";
+import { AdminDropDown } from "./AdminDropDown";
 
 export const Navbar = () => {
   const url = process.env.REACT_APP_SERVER_BASE_URL;
@@ -79,11 +80,7 @@ export const Navbar = () => {
             <div className="xs:hidden">
               <ImSearch className="text-xl" onClick={() => setInput(!input)} />
             </div>
-            <img
-              src={auth?.img}
-              alt={auth?.name}
-              className="rounded-full w-8 h-8 xs:w-10 xs:h-10"
-            />
+            <AdminDropDown/>
           </div>
         ) : (
           <GoogleLogin

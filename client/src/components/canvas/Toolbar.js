@@ -25,7 +25,7 @@ export const Toolbar = () => {
   const width = useWindowSize()
   return (
     <div
-      className="absolute top-0 bg-white m-1 rounded-md shadow-md p-2 z-10 flex flex-col md:flex-row md:space-x-3 space-y-3 md:space-y-0"
+      className="absolute top-16 md:top-0 bg-white m-1 rounded-md shadow-md p-2 z-10 flex flex-col md:flex-row md:space-x-3 space-y-3 md:space-y-0"
       style={{ left: width >= 768 ? "40vw" : "90vw" }}
     >
       {arr.map((e, key) => {

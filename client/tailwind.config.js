@@ -7,6 +7,7 @@ module.exports = {
         hoverColor: '#edf2f7'
       },
       screens: {
+        'ks': '384px',
         'xs': '500px',
         // => @media (min-width: 500px) { ... }
 

@@ -4,7 +4,7 @@ import Moment from "react-moment";
 import { Dropdown } from "./Dropdown";
 import {Link} from 'react-router-dom'
 
-export const Card = (props) => {
+export const BoardCard = (props) => {
   const [img, setImg] = useState(null);
   useEffect(async () => {
     const rsp = await getBoardImg(props.e);
@@ -15,10 +15,10 @@ export const Card = (props) => {
     localStorage.setItem('uid',props?.e?.uid)
   }
   return (
-    <div className="w-64 h-56 border-2 rounded-md m-2 cursor-pointer">
+    <div className="w-72 ks:w-96 xs:w-64 h-56 border-2 rounded-md m-2 cursor-pointer">
       <canvas
         id="card_canvas"
-        className="w-screen h-screen hidden"
+        className="hidden"
         width={window.innerWidth}
         height={window.innerHeight}
       />
