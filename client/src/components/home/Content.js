@@ -10,7 +10,6 @@ export const Content = ({setElements}) => {
     const url = process.env.REACT_APP_SERVER_BASE_URL
     const auth = useSelector(state=> state.authReducer.auth)
     const allBoards = useSelector(state=> state.boardReducer.allBoards)
-    const dispatch = useDispatch();
     // save board
     useEffect(async () =>{
       async function fetch1(){

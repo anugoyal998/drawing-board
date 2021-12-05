@@ -23,7 +23,15 @@ export const Navbar = () => {
     async function fetchData(){
       try {
         const rsp = await axios.post(`${url}/get-board`,{email: auth?.email})
-        const data = rsp.data.reverse()
+        var data = rsp.data
+        data = data.sort(function(a, b) {
+          var keyA = new Date(a.updatedAt),
+            keyB = new Date(b.updatedAt);
+          // Compare the 2 dates
+          if (keyA > keyB) return -1;
+          if (keyA < keyB) return 1;
+          return 0;
+        })
         dispatch(setAllBoards(data))
       } catch (error) {
         console.log("error fetching data",error)

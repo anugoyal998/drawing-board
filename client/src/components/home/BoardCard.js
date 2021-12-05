@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getBoardImg } from "./functions/getBoardImg";
-import {BiDotsVerticalRounded} from 'react-icons/bi'
 import Moment from "react-moment";
-
+import { Dropdown } from "./Dropdown";
 
 export const Card = (props) => {
   const [img, setImg] = useState(null);
@@ -20,13 +19,13 @@ export const Card = (props) => {
       />
       {img && <img id="card_img" src={img} className="bg-white h-40 border-b-2 w-full" />}
       <div className="p-1">
-        <p className="text-gray-600 font-semibold">{props?.e?.board_name}</p>
+        <p className="font-semibold">{props?.e?.board_name}</p>
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             {/* <p>logo</p> */}
-            <Moment fromNow >{props?.e?.createdAt}</Moment>
+            <Moment fromNow className="text-sm font-semibold" >{props?.e?.updatedAt}</Moment>
           </div>
-          <div><BiDotsVerticalRounded className="text-xl" /></div>
+          <Dropdown data={props.e}/>
         </div>
       </div>
     </div>
