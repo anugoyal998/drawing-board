@@ -57,7 +57,7 @@ export const Canvas1 = ({ elements, setElements, undo, redo }) => {
         window.location.reload()
       }, 1000);
     }
-  },[])
+  },[auth,dispatch,setElements,url])
 
 
   useLayoutEffect(() => {

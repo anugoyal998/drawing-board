@@ -2,36 +2,41 @@ import React, { useEffect } from "react";
 import { useHistory } from "./hooks/useHistory";
 import { Route } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import Cookies from "js-cookie"
-import toast, {Toaster}from "react-hot-toast"
-import axios from 'axios'
+import Cookies from "js-cookie";
+import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
 
 import { Home } from "./components/home/Home";
 import { Canvas } from "./components/canvas/Canvas";
 import { Toolbar } from "./components/canvas/Toolbar";
 import { TopRight } from "./components/canvas/TopRight";
 import { setAuth } from "./redux/actions/auth.action";
-import {setAllBoards} from './redux/actions/board.action'
+import { setAllBoards } from "./redux/actions/board.action";
 import { Canvas1 } from "./components/canvas/Canvas1";
 
 export default function App() {
-  const url = process.env.REACT_APP_SERVER_BASE_URL
+  const url = process.env.REACT_APP_SERVER_BASE_URL;
   const [elements, setElements, undo, redo] = useHistory([]);
-  const auth = useSelector((state=> state.authReducer.auth))
+  const auth = useSelector((state) => state.authReducer.auth);
   const dispatch = useDispatch();
-  useEffect(async ()=> {
-    dispatch(setAuth(JSON.parse(Cookies.get('user'))))
-    try {
-      const rsp = await axios.post(`${url}/get-board`,{email: auth?.email})
-      dispatch(setAllBoards(rsp.data))
-    } catch (error) {
-      console.log("error in get board", error)
-      toast.error('An error occured')
+  useEffect(() => {
+    async function fetchData() {
+      dispatch(setAuth(JSON.parse(Cookies.get("user"))));
+      try {
+        const rsp = await axios.post(`${url}/get-board`, {
+          email: auth?.email,
+        });
+        dispatch(setAllBoards(rsp.data));
+      } catch (error) {
+        console.log("error in get board", error);
+        toast.error("An error occured");
+      }
     }
-  },[])
+    fetchData();
+  }, [auth?.email, dispatch, url]);
   return (
     <>
-    <Toaster/>
+      <Toaster />
       <Route path="/" exact>
         <Home setElements={setElements} />
       </Route>
@@ -43,7 +48,7 @@ export default function App() {
           redo={redo}
         />
         <Toolbar />
-        {auth && auth?.name && <TopRight/>}
+        {auth && auth?.name && <TopRight />}
       </Route>
       <Route path="/update-board" exact>
         <Canvas1
@@ -53,7 +58,7 @@ export default function App() {
           redo={redo}
         />
         <Toolbar />
-        {auth && auth?.name && <TopRight/>}
+        {auth && auth?.name && <TopRight />}
       </Route>
     </>
   );

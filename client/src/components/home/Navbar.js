@@ -46,7 +46,7 @@ export const Navbar = () => {
       }
     }
     fetchData();
-  }, [auth]);
+  }, [auth,dispatch,url]);
   return (
     <div className="fixed w-full">
       <SearchDropDown search={search}/>
