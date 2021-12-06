@@ -13,9 +13,11 @@ import { MdDarkMode } from "react-icons/md";
 import axios from 'axios';
 import toast , {Toaster} from "react-hot-toast"
 import {setTool} from '../../redux/actions/tool.action'
+import {useDimensions} from '../../hooks/useDimensions'
 
 export const Canvas = ({ elements, setElements, undo, redo }) => {
   const url = process.env.REACT_APP_SERVER_BASE_URL
+  const [width,height] = useDimensions()
   const [restored,setRestored] = useState(false)
   const textAreaRef = useRef();
   const canvasRef = useRef();
@@ -207,9 +209,9 @@ export const Canvas = ({ elements, setElements, undo, redo }) => {
       <canvas
         ref={canvasRef}
         id="canvas"
-        className="w-screen h-screen z-0 bg-white"
-        width={window.innerWidth}
-        height={window.innerHeight}
+        className="z-0 bg-white"
+        width={width}
+        height={height}
         onMouseDown={handleMouseDownClick}
         onMouseMove={handleMouseMoveClick}
         onMouseUp={handleMouseUpClick}
