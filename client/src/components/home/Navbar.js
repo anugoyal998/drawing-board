@@ -10,6 +10,7 @@ import { loginSuccess } from "./functions/loginSuccess";
 import axios from "axios";
 import { setAllBoards } from "../../redux/actions/board.action";
 import { AdminDropDown } from "./AdminDropDown";
+import { SearchDropDown } from "./SearchDropDown";
 
 export const Navbar = () => {
   const url = process.env.REACT_APP_SERVER_BASE_URL;
@@ -22,6 +23,7 @@ export const Navbar = () => {
   };
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.authReducer.auth);
+  const [search,setSearch] = useState('')
   useEffect(() => {
     async function fetchData() {
       try {
@@ -47,11 +49,12 @@ export const Navbar = () => {
   }, [auth]);
   return (
     <div className="fixed w-full">
+      <SearchDropDown search={search}/>
       <div className="flex items-center justify-between p-2 shadow-md bg-white z-10">
         <Toaster />
         <div className="xs:hidden">
         {input ? (
-          <input className="animate__animated animate__fadeInLeft xs:hidden bg-gray-100 py-1 px-3 focus:outline-none w-56 rounded-3xl" type="search" placeholder="Search" />
+          <input className="animate__animated animate__fadeInLeft xs:hidden bg-gray-100 py-1 px-3 focus:outline-none w-56 rounded-3xl" type="search" placeholder="Search" value={search} onChange={e=> setSearch(e.target.value)} />
         ) : (
           <Link to="/">
             <img alt="logo" src={logo} className="w-10 xs:w-12 animate__animated animate__fadeInLeft" />
@@ -63,18 +66,20 @@ export const Navbar = () => {
             <img alt="logo" src={logo} className="w-10 xs:w-12" />
           </Link>
         </div>
-        <div className="bg-gray-100 hidden xs:flex items-center rounded-3xl">
-          <div className="p-2 pl-4">
-            <ImSearch />
+          <div className="bg-gray-100 hidden xs:flex items-center rounded-3xl">
+            <div className="p-2 pl-4">
+              <ImSearch />
+            </div>
+            <div className="p-1">
+              <input
+                type="search"
+                placeholder="Search"
+                className="bg-gray-100 p-1 outline-none focus:outline-none w-64"
+                value={search} 
+                onChange={e=> setSearch(e.target.value)} 
+              />
+            </div>
           </div>
-          <div className="p-1">
-            <input
-              type="search"
-              placeholder="Search"
-              className="bg-gray-100 p-1 outline-none focus:outline-none w-64"
-            />
-          </div>
-        </div>
         {auth && auth?.name ? (
           <div className="flex space-x-3 items-center">
             <div className="xs:hidden">
