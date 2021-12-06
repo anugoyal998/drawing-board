@@ -25,6 +25,7 @@ export const Navbar = () => {
   const auth = useSelector((state) => state.authReducer.auth);
   const [search,setSearch] = useState('')
   useEffect(() => {
+    let cancel = true
     async function fetchData() {
       try {
         const rsp = await axios.post(`${url}/get-board`, {
@@ -45,7 +46,10 @@ export const Navbar = () => {
         toast.error("An error occured");
       }
     }
-    fetchData();
+    cancel && fetchData();
+    return ()=> {
+      cancel = false
+    }
   }, [auth,dispatch,url]);
   return (
     <div className="fixed w-full">

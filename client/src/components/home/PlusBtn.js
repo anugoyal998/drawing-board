@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 export const PlusBtn = ({setElements}) => {
     const auth = useSelector(state => state.authReducer.auth)
     useEffect(() =>{
+        var cancel = true
         async function fetchData() {
             const url = process.env.REACT_APP_SERVER_BASE_URL
             setElements([])
@@ -37,8 +38,11 @@ export const PlusBtn = ({setElements}) => {
                 }
             }
         }
-        fetchData();
-    },[])
+        cancel && fetchData();
+        return ()=> {
+            cancel = false;
+        }
+    },[auth?.email,auth?.gid,auth?.img,auth?.name])
     return (
         <Link to={auth? "/new-board" : "/"} className="fixed bottom-0 right-0 m-2 hover:scale-110 transform outline-none focus:outline-none">
             <AiFillPlusCircle className="text-5xl text-gray-600"/>

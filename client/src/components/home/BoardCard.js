@@ -7,11 +7,15 @@ import { Link } from "react-router-dom";
 export const BoardCard = (props) => {
   const [img, setImg] = useState(null);
   useEffect(() => {
+    let cancel = true
     async function fetchData() {
       const rsp = await getBoardImg(props.e);
       setImg(rsp);
     }
-    fetchData();
+  cancel && fetchData();
+  return ()=> {
+    cancel = false
+  }
   }, [props?.e]);
   const handleClick = () => {
     localStorage.setItem("board", JSON.stringify(props?.e?.board_data));

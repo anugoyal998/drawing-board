@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import rough from "roughjs/bundled/rough.esm";
 import { handleMouseDown } from "../../functions/handleMouseDown";
 import { handleMouseMove } from "../../functions/handleMouseMove";
@@ -10,19 +10,16 @@ import { handleBlur } from "../../functions/handleBlur";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FaRegSave } from "react-icons/fa";
 import { MdDarkMode } from "react-icons/md";
-import axios from 'axios';
 import toast , {Toaster} from "react-hot-toast"
 import {setTool} from '../../redux/actions/tool.action'
 import {useDimensions} from '../../hooks/useDimensions'
 
 export const Canvas = ({ elements, setElements, undo, redo }) => {
-  const url = process.env.REACT_APP_SERVER_BASE_URL
   const [width,height] = useDimensions()
   const textAreaRef = useRef();
   const canvasRef = useRef();
   const action = useSelector((state) => state.actionReducer.action);
   const tool = useSelector((state) => state.toolReducer.tool);
-  const auth = useSelector((state) => state.authReducer.auth);
   const selectedElement = useSelector(
     (state) => state.selectedElementReducer.selectedElement
   );
@@ -40,7 +37,7 @@ export const Canvas = ({ elements, setElements, undo, redo }) => {
         { duration: 3000 }
       )
     }
-  },[])
+  },[dispatch])
 
   useLayoutEffect(() => {
     if (tool === "img" || tool === "cursor") return;

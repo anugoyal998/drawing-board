@@ -1,14 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { NoBoard } from "./NoBoard";
 import { PlusBtn } from "./PlusBtn";
-import toast, { Toaster } from "react-hot-toast";
-import axios from "axios";
+import { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { BoardCard } from "./BoardCard";
 
 export const Content = ({ setElements }) => {
-  const url = process.env.REACT_APP_SERVER_BASE_URL;
-  const auth = useSelector((state) => state.authReducer.auth);
   const allBoards = useSelector((state) => state.boardReducer.allBoards);
   if (allBoards.length <= 0) {
     return (

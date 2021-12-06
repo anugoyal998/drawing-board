@@ -12,7 +12,6 @@ import { Toolbar } from "./components/canvas/Toolbar";
 import { TopRight } from "./components/canvas/TopRight";
 import { setAuth } from "./redux/actions/auth.action";
 import { setAllBoards } from "./redux/actions/board.action";
-import { Canvas1 } from "./components/canvas/Canvas1";
 
 export default function App() {
   const url = process.env.REACT_APP_SERVER_BASE_URL;
