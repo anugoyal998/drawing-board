@@ -18,7 +18,6 @@ import {useDimensions} from '../../hooks/useDimensions'
 export const Canvas = ({ elements, setElements, undo, redo }) => {
   const url = process.env.REACT_APP_SERVER_BASE_URL
   const [width,height] = useDimensions()
-  const [restored,setRestored] = useState(false)
   const textAreaRef = useRef();
   const canvasRef = useRef();
   const action = useSelector((state) => state.actionReducer.action);
@@ -30,43 +29,18 @@ export const Canvas = ({ elements, setElements, undo, redo }) => {
   const dispatch = useDispatch();
 
 
+  //restore from local storage
   useEffect(() => {
-    const board = JSON.parse(localStorage.getItem('board'))
-    if(board){
-      setElements(prev=> board)
-      setRestored(true)
-      dispatch(setTool("line"))
+    const boardElement = JSON.parse(localStorage.getItem('board'));
+    if(boardElement){
+      setElements(boardElement)
+      dispatch(setTool('line'))
       toast(
         "Your previous work was restored from your local storage",
         { duration: 3000 }
       )
     }
-    return async ()=> {
-      if(!auth || !auth?.name)return
-      const boardEle = JSON.parse(localStorage.getItem('board'))
-      if(!boardEle || boardEle.length <=0 )return
-      localStorage.clear()
-      setElements([])
-      try {
-        const data = {
-          name: auth.name,
-          email: auth.email,
-          gid: auth.gid,
-          img: auth.img,
-          board_data: boardEle
-        }
-        await axios.post(`${url}/new-board`,data)
-      } catch (error) {
-        console.log("error in save board", error)
-        toast.error('An error occured while saving board')
-      }
-      window.location.reload()
-      setInterval(() => {
-        window.location.reload()
-      }, 1000);
-    }
-  },[auth,dispatch,setElements,url])
-
+  },[])
 
   useLayoutEffect(() => {
     if (tool === "img" || tool === "cursor") return;
@@ -78,7 +52,7 @@ export const Canvas = ({ elements, setElements, undo, redo }) => {
       if (action === "writing" && selectedElement.id === element.id) return;
       drawElement(roughCanvas, context, element);
     });
-  }, [elements, action, selectedElement,tool,restored]);
+  }, [elements, action, selectedElement,tool]);
 
   const handleSaveCanvas = async (isSave=true) => {
     const canvas = canvasRef.current;

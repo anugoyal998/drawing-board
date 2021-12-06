@@ -10,30 +10,6 @@ export const Content = ({ setElements }) => {
   const url = process.env.REACT_APP_SERVER_BASE_URL;
   const auth = useSelector((state) => state.authReducer.auth);
   const allBoards = useSelector((state) => state.boardReducer.allBoards);
-  // save board
-  useEffect(() => {
-    async function fetchData() {
-      if (!auth || !auth?.name) return;
-      const boardEle = JSON.parse(localStorage.getItem("board"));
-      if (!boardEle) return;
-      localStorage.clear();
-      setElements([]);
-      try {
-        const data = {
-          name: auth.name,
-          email: auth.email,
-          gid: auth.gid,
-          img: auth.img,
-          board_data: boardEle,
-        };
-        await axios.post(`${url}/new-board`, data);
-      } catch (error) {
-        console.log("error in save board", error);
-        toast.error("An error occured while saving board");
-      }
-    }
-    fetchData();
-  }, [auth, setElements, url]);
   if (allBoards.length <= 0) {
     return (
       <>
@@ -43,7 +19,7 @@ export const Content = ({ setElements }) => {
         >
           <Toaster />
           <p className="font-semibold text-lg text-gray-600">Recent Boards</p>
-          <PlusBtn />
+          <PlusBtn setElements={setElements} />
           <NoBoard />
         </div>
       </>
@@ -52,7 +28,7 @@ export const Content = ({ setElements }) => {
     return (
       <>
         <Toaster />
-        <PlusBtn />
+        <PlusBtn setElements={setElements} />
         <p className="font-semibold text-lg text-gray-600 bg-gray-100 pt-16 px-3 xs:px-10">
           Recent Boards
         </p>

@@ -40,26 +40,30 @@ export default function App() {
       <Route path="/" exact>
         <Home setElements={setElements} />
       </Route>
-      <Route path="/new-board" exact>
-        <Canvas
-          elements={elements}
-          setElements={setElements}
-          undo={undo}
-          redo={redo}
-        />
-        <Toolbar />
-        {auth && auth?.name && <TopRight />}
-      </Route>
-      <Route path="/update-board" exact>
-        <Canvas1
-          elements={elements}
-          setElements={setElements}
-          undo={undo}
-          redo={redo}
-        />
-        <Toolbar />
-        {auth && auth?.name && <TopRight />}
-      </Route>
+      {auth && auth?.name && (
+        <Route path="/new-board" exact>
+          <Canvas
+            elements={elements}
+            setElements={setElements}
+            undo={undo}
+            redo={redo}
+          />
+          <Toolbar />
+          {auth && auth?.name && <TopRight />}
+        </Route>
+      )}
+      {auth && auth?.name && (
+        <Route path="/update-board" exact>
+          <Canvas
+            elements={elements}
+            setElements={setElements}
+            undo={undo}
+            redo={redo}
+          />
+          <Toolbar />
+          {auth && auth?.name && <TopRight />}
+        </Route>
+      )}
     </>
   );
 }

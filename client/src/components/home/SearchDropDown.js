@@ -49,7 +49,7 @@ const Card = ({ data }) => {
   return (
     <Link to="/update-board">
       <div
-        className="flex space-x-2 items-center my-1 px-4 cursor-pointer hover:bg-hoverColor"
+        className="flex space-x-2 items-center my-1 px-4 cursor-pointer hover:bg-hoverColor py-2"
         onClick={handleClick}
       >
         <div className="border">
