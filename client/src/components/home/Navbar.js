@@ -93,7 +93,7 @@ export const Navbar = () => {
           </div>
         ) : (
           <GoogleLogin
-            clientId="820810288686-ha10p9qg9a63163742r45ob5hfug8cdv.apps.googleusercontent.com"
+            clientId={process.env.REACT_APP_GLOGIN_CID}
             render={(renderProps) => (
               <button
                 className="outline-none focus:outline-none"

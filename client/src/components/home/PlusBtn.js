@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import {AiFillPlusCircle} from 'react-icons/ai'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import toast , { Toaster } from 'react-hot-toast'
 
 
 export const PlusBtn = ({setElements}) => {
@@ -43,9 +44,18 @@ export const PlusBtn = ({setElements}) => {
             cancel = false;
         }
     },[auth?.email,auth?.gid,auth?.img,auth?.name])
+    const handleClick = ()=> {
+        if(auth)return
+        toast('Login to get started',{
+            icon: '🔒'
+        })
+    }
     return (
+        <>
+        <Toaster />
         <Link to={auth? "/new-board" : "/"} className="fixed bottom-0 right-0 m-2 hover:scale-110 transform outline-none focus:outline-none">
-            <AiFillPlusCircle className="text-5xl text-gray-600"/>
+            <AiFillPlusCircle className="text-5xl text-gray-600" onClick={handleClick} />
         </Link>
+        </>
     )
 }

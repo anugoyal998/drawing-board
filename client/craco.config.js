@@ -7,4 +7,7 @@ module.exports = {
       ],
     },
   },
+  eslint: {
+    enable: process.env.NODE_ENV === 'production' ? false : true,
+  }
 }
