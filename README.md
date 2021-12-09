@@ -56,14 +56,13 @@ You will also see any errors or information in the console.
 ## Screenshots
 
 ## Home Page
-![Home Page](/readme_img/drawingBoard1 "Home Page")
+![Home Page](https://drive.google.com/uc?export=view&id=1aSqcfb-IRIb9OLTibE7qojKN4aR5LH_0)
 
 ## Search
-![Search Page](/readme_img/drawingBoard2 "Search Page")
+![Search Page](https://drive.google.com/uc?export=view&id=1yZDg-5KrqYKkRF-92CfA76RFBSpOl_Ct)
 
 ## Empty Board
-![Empty Board Page](/readme_img/drawingBoard3 "Empty Board Page")
+![Empty Board Page](https://drive.google.com/uc?export=view&id=1qFR0ivfCgWj1YuE1g_Z7Qo9i825pUj-a)
 
 ## Writing, Drawing, and Sketching
-![Writing, Drawing, and Sketching Page](/readme_img/drawingBoard4 "Writing, Drawing, and Sketching Page")
-
+![Writing, Drawing, and Sketching Page](https://drive.google.com/uc?export=view&id=1M3FzSIHm7lU_vMNAFjRDGLk8XrvdXnhm)
