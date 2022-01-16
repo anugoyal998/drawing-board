@@ -67,3 +67,6 @@ You will also see any errors or information in the console.
 
 ## Writing, Drawing, and Sketching
 ![Writing, Drawing, and Sketching Page](https://drive.google.com/uc?export=view&id=1M3FzSIHm7lU_vMNAFjRDGLk8XrvdXnhm)
+
+## Lighthouse Stats
+![Lighthouse Stats](https://drive.google.com/uc?export=view&id=1kmmLX3TF1O2rMKyBHm1GZIvjss4SEX3j)
